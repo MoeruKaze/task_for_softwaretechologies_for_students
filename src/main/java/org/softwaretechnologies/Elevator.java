@@ -3,7 +3,7 @@ package org.softwaretechnologies;
 public final class Elevator {
 
     /**
-     * Этаж, на котором сейчас находится лифт.
+     * Этаж, на котором сейчас находится лифтssssssss.
      */
     private int currentFloor;
 
