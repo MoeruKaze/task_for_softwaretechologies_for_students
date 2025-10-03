@@ -26,7 +26,9 @@ public class Money {
      */
     @Override
     public boolean equals(Object o) {
-        // TODO: реализуйте вышеуказанную функцию
+        if (this == o) return true;
+        Money money = (Money) o;
+        if (type != money.type) return false;
 
         return false;
     }
