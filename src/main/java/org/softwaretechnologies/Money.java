@@ -27,10 +27,15 @@ public class Money {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        Money money = (Money) o;
-        if (type != money.type) return false;
+        if (o == null || getClass() != o.getClass()) return false;
+        Money othermoney = (Money) o;
+        if (type != othermoney.type) return false;
+        if (amount == null && othermoney.amount == null) return true;
+        if (amount == null || othermoney.amount == null) return false;
+        BigDecimal thisScaled = this.amount.setScale(4,RoundingMode.HALF_UP);
+        BigDecimal otherScaled = othermoney.amount.setScale(4,RoundingMode.HALF_UP);
 
-        return false;
+        return thisScaled.equals(otherScaled);
     }
 
     /**
@@ -50,11 +55,30 @@ public class Money {
      */
     @Override
     public int hashCode() {
-        // TODO: реализуйте вышеуказанную функцию
+        BigDecimal scaledAmount = amount != null ? amount.setScale(4, RoundingMode.HALF_UP) : null;
 
+        long amountPart;
+        if (scaledAmount == null) amountPart = 10000L;
+        else {
+            amountPart = (long)(scaledAmount.doubleValue()*10000.0);
+        }
 
-        Random random = new Random();
-        return random.nextInt();
+        int currencyCod;
+        if (type == null) {
+            currencyCod = 5;
+        }
+        else{
+            switch (type) {
+                case USD: currencyCod = 1; break;
+                case EURO: currencyCod = 2; break;
+                case RUB: currencyCod = 3; break;
+                case KRONA: currencyCod = 4; break;
+                default: currencyCod = 5; break;
+            }
+        }
+        long hash = amountPart + currencyCod;
+        if (hash >= (MAX_VALUE)-5) return MAX_VALUE;
+        return (int) hash;
     }
 
     /**
@@ -76,9 +100,10 @@ public class Money {
      */
     @Override
     public String toString() {
-        // TODO: реализуйте вышеуказанную функцию
+        String typeStr = (type == null) ? "null" : type.toString();
+        String amountStr = (amount == null) ? "null" : (amount.setScale(4, RoundingMode.HALF_UP).toString());
         String str = type.toString()+": "+amount.setScale(4, RoundingMode.HALF_UP).toString();
-        return str;
+        return typeStr + ": " + amountStr;
     }
 
     public BigDecimal getAmount() {
@@ -90,10 +115,10 @@ public class Money {
     }
 
     public static void main(String[] args) {
-        Money money = new Money(MoneyType.EURO, BigDecimal.valueOf(10.00012));
-        Money money1 = new Money(MoneyType.USD, BigDecimal.valueOf(10.5000));
-        System.out.println(money1.toString());
-        System.out.println(money1.hashCode());
+        Money money = new Money(MoneyType.USD, BigDecimal.valueOf(0.0000));
+        Money money1 = new Money(MoneyType.USD, BigDecimal.valueOf(1.0000));
         System.out.println(money.equals(money1));
+        System.out.println(money.hashCode());
+        System.out.println(money1.hashCode());
     }
 }
