@@ -28,12 +28,16 @@ public class Money {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Money othermoney = (Money) o;
-        if (type != othermoney.type) return false;
-        if (amount == null && othermoney.amount == null) return true;
-        if (amount == null || othermoney.amount == null) return false;
+        Money otherMoney = (Money) o;
+        if (type == null) {
+            if (otherMoney.type != null) return false;
+        } else {
+            if (!type.equals(otherMoney.type)) return false;
+        }
+        if (amount == null && otherMoney.amount == null) return true;
+        if (amount == null || otherMoney.amount == null) return false;
         BigDecimal thisScaled = this.amount.setScale(4,RoundingMode.HALF_UP);
-        BigDecimal otherScaled = othermoney.amount.setScale(4,RoundingMode.HALF_UP);
+        BigDecimal otherScaled = otherMoney.amount.setScale(4,RoundingMode.HALF_UP);
 
         return thisScaled.equals(otherScaled);
     }
