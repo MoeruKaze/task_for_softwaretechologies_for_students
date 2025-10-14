@@ -10,8 +10,8 @@ import java.util.List;
 
 public class Zoo {
     private final List<Animal> animalList = new ArrayList<>();
-    public void addAnimal(Animal animal) {
 
+    public void addAnimal(Animal animal) {
         animalList.add(animal);
     }
 
@@ -34,10 +34,16 @@ public class Zoo {
      */
     public List<String> soundAllAnimalsSortByName() {
         List<String> sounds = new ArrayList<>();
-        // TODO заполните корректно список звуков
+
+        // Сортируем животных по имени в алфавитном порядке
+        List<Animal> sortedAnimals = new ArrayList<>(animalList);
+        sortedAnimals.sort(Comparator.comparing(Animal::getName));
+
+        // Собираем звуки отсортированных животных
+        for (Animal animal : sortedAnimals) {
+            sounds.add(animal.sound());
+        }
 
         return sounds;
     }
-
-
 }
