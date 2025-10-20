@@ -12,7 +12,7 @@ public class ExceptionTask {
         try {
             throwRuntimeException();
         } catch (RuntimeException e) {
-            // Перехватываем RuntimeException и выводим сообщение
+
             System.out.println("Вызвана функция printMessage");
         }
     }
@@ -26,10 +26,8 @@ public class ExceptionTask {
         try {
             throwCatchableException();
         } catch (Exception e) {
-            // Перехватываем Exception и выводим сообщение
+
             System.out.println("Вызвана функция printMessage2");
-            // Можно либо не пробрасывать исключение дальше, либо пробросить после обработки
-            // В данном случае, согласно условию, просто выводим сообщение
         }
     }
 
@@ -78,7 +76,6 @@ public class ExceptionTask {
             return Optional.of(first);
         }
 
-        // Обе строки не null - конкатенируем наибольшую с наименьшей
         String result = first.length() > second.length() ? first + second : second + first;
         return Optional.of(result);
     }
