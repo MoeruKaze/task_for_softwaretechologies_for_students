@@ -16,11 +16,6 @@ public class EmployeeFactory {
 
 
     public static Employee createEmployee(String name, int baseSalary, EmployeeType type) {
-        return switch (type) {
-            case Manager -> new Manager(name, baseSalary);
-            case Programmer -> new Programmer(name, baseSalary);
-            case Tester -> new Tester(name, baseSalary);
-            default -> throw new IllegalArgumentException("Неизвестный тип сотрудника: " + type);
-        };
+        return type.createEmployee(name, baseSalary);
     }
 }
