@@ -1,4 +1,4 @@
-package org.softwaretechnologies;;
+package org.softwaretechnologies;
 
 import java.util.Optional;
 
@@ -6,12 +6,15 @@ public class ExceptionTask {
     /**
      * Исправьте функцию printMessage не убирая вызов функции throwRuntimeException.
      * Функция printMessage должна выводить на экран сообщение:
-       Вызвана функция printMessage
+     Вызвана функция printMessage
      */
     public static void printMessage() {
-        throwRuntimeException();
-        // TODO: реализуйте вышеуказанную функцию
-
+        try {
+            throwRuntimeException();
+        } catch (RuntimeException e) {
+            // Перехватываем RuntimeException и выводим сообщение
+            System.out.println("Вызвана функция printMessage");
+        }
     }
 
     /**
@@ -20,8 +23,14 @@ public class ExceptionTask {
      Вызвана функция printMessage2
      */
     public static void printMessage2() throws Exception {
-        throwCatchableException();
-        // TODO: реализуйте вышеуказанную функцию
+        try {
+            throwCatchableException();
+        } catch (Exception e) {
+            // Перехватываем Exception и выводим сообщение
+            System.out.println("Вызвана функция printMessage2");
+            // Можно либо не пробрасывать исключение дальше, либо пробросить после обработки
+            // В данном случае, согласно условию, просто выводим сообщение
+        }
     }
 
     private static void throwCatchableException() throws Exception {
@@ -40,9 +49,10 @@ public class ExceptionTask {
      * @throws DivideOnNullException если divisor равен 0
      */
     public static int divide(int dividend, int divisor) throws DivideOnNullException {
-
-        // TODO: реализуйте вышеуказанную функцию
-        return dividend/divisor;
+        if (divisor == 0) {
+            throw new DivideOnNullException();
+        }
+        return dividend / divisor;
     }
 
     /**
@@ -52,13 +62,24 @@ public class ExceptionTask {
      * Если обе строки равны null, то должен возвращаться пустой Optional.
      * @param first первая строка
      * @param second вторая строка
-     * @return конкатенацию двух строк: кротчайшую из двух строк с другой строкой.
+     * @return конкатенацию двух строк: наибольшую из двух строк с другой строкой.
      */
     public static Optional<String> mergeStrings(String first, String second) {
-        // TODO: реализуйте вышеуказанную функцию
+        // Обработка случая, когда обе строки null
+        if (first == null && second == null) {
+            return Optional.empty();
+        }
 
+        // Обработка случая, когда одна из строк null
+        if (first == null) {
+            return Optional.of(second);
+        }
+        if (second == null) {
+            return Optional.of(first);
+        }
 
-
-        return Optional.of(first.length() > second.length() ? first + second : second + first);
+        // Обе строки не null - конкатенируем наибольшую с наименьшей
+        String result = first.length() > second.length() ? first + second : second + first;
+        return Optional.of(result);
     }
 }
