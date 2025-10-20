@@ -25,7 +25,6 @@ public enum EmployeeType {
         public Employee createEmployee(String name, int baseSalary) {
             return new Programmer(name, baseSalary);
         }
-
     },
     /*
     Формула вычисления зп: baseSalary * количество дней в месяце в текущем году
@@ -37,5 +36,4 @@ public enum EmployeeType {
         }
     };
     public abstract Employee createEmployee(String name, int baseSalary);
-
 }
